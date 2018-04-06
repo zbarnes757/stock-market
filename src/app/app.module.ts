@@ -8,12 +8,14 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from './../environments/environment';
 import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { AppComponent } from './app.component';
-import { ROUTES } from './app.routes';
+import { appRoutes } from './app.routes';
+import { AppHomeComponent } from './app-home/app-home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppNavbarComponent
+    AppNavbarComponent,
+    AppHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +23,7 @@ import { ROUTES } from './app.routes';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]
