@@ -10,12 +10,14 @@ import { AppNavbarComponent } from './app-navbar/app-navbar.component';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { AppHomeComponent } from './app-home/app-home.component';
+import { AppNotFoundComponent } from './app-not-found/app-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppNavbarComponent,
-    AppHomeComponent
+    AppHomeComponent,
+    AppNotFoundComponent
   ],
   imports: [
     BrowserModule,
