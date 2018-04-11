@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   signUpwithEmailPassword(email: string, password: string) {
-    return this._firebaseAuth.auth.createUserAndRetrieveDataWithEmailAndPassword(email, password);
+    return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
   }
 
 }
