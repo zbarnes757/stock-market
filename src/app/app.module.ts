@@ -11,13 +11,17 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { AppHomeComponent } from './app-home/app-home.component';
 import { AppNotFoundComponent } from './app-not-found/app-not-found.component';
+import { AuthService } from './services/auth.service';
+import { LoginComponent } from './login/login.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppNavbarComponent,
     AppHomeComponent,
-    AppNotFoundComponent
+    AppNotFoundComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -25,9 +29,10 @@ import { AppNotFoundComponent } from './app-not-found/app-not-found.component';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FormsModule
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
