@@ -1,12 +1,12 @@
 <app-navbar></app-navbar>
 <main role="main" class="container">
-  <div *ngIf="afAuth.authState | async as user; else login">
-    <router-outlet></router-outlet>
-  </div>
-
-  <ng-template #login>
-    <app-login></app-login>
-  </ng-template>
+  <div *ngIf="auth.getcurrentUser(); then hasSession else login"></div>
 </main>
 
+<ng-template #hasSession>
+  <router-outlet></router-outlet>
+</ng-template>
 
+<ng-template #login>
+  <app-login></app-login>
+</ng-template>

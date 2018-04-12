@@ -13,12 +13,31 @@ export class AuthService {
     this.user = _firebaseAuth.authState;
   }
 
-  signInWithEmailPassword(email: string, password: string) {
-    return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+  async signInWithEmailPassword(email: string, password: string) {
+    const resp = await this._firebaseAuth.auth.signInAndRetrieveDataWithEmailAndPassword(email, password);
+
+    this.storeCurrentUser(resp.user);
+    return resp.user;
   }
 
-  signUpwithEmailPassword(email: string, password: string) {
-    return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
+  async signUpwithEmailPassword(email: string, password: string) {
+    const resp = await this._firebaseAuth.auth.createUserAndRetrieveDataWithEmailAndPassword(email, password);
+
+    this.storeCurrentUser(resp.user);
+    return resp.user;
   }
 
+  storeCurrentUser(user) {
+    return localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  getcurrentUser() {
+    return JSON.parse(localStorage.getItem('currentUser'));
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+
+    return this._firebaseAuth.auth.signOut();
+  }
 }

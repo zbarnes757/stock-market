@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +9,5 @@ import { AngularFireAuth } from 'angularfire2/auth';
 export class AppComponent {
   title = 'app';
 
-  constructor(public afAuth: AngularFireAuth) { }
+  constructor(public auth: AuthService) { }
 }
