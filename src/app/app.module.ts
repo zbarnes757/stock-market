@@ -14,6 +14,8 @@ import { AppNotFoundComponent } from './app-not-found/app-not-found.component';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
+import { PortfolioComponent } from './portfolio/portfolio.component';
+import { PortfolioItemComponent } from './portfolio-item/portfolio-item.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { FormsModule } from '@angular/forms';
     AppNavbarComponent,
     AppHomeComponent,
     AppNotFoundComponent,
-    LoginComponent
+    LoginComponent,
+    PortfolioComponent,
+    PortfolioItemComponent
   ],
   imports: [
     BrowserModule,
