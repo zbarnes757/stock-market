@@ -16,6 +16,8 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { PortfolioItemComponent } from './portfolio-item/portfolio-item.component';
+import { StockTickerFormComponent } from './stock-ticker-form/stock-ticker-form.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { PortfolioItemComponent } from './portfolio-item/portfolio-item.componen
     AppNotFoundComponent,
     LoginComponent,
     PortfolioComponent,
-    PortfolioItemComponent
+    PortfolioItemComponent,
+    StockTickerFormComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import { PortfolioItemComponent } from './portfolio-item/portfolio-item.componen
     AngularFireAuthModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

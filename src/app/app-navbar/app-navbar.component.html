@@ -8,22 +8,19 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="/">Home
+      <a class="nav-link" routerLink="/">Home
+
           <span class="sr-only">(current)</span>
         </a>
       </li>
       <div *ngIf="auth.getcurrentUser(); then hasSession else noSession"></div>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
   </div>
 </nav>
 
 <ng-template #hasSession>
   <li class="nav-item">
-    <a class="nav-link" href="/portfolio">My Portfolio</a>
+    <a class="nav-link" routerLink="/portfolio">My Portfolio</a>
   </li>
   <li class="nav-item">
     <a href class="nav-link" (click)="auth.logout()">Logout</a>
@@ -32,6 +29,7 @@
 
 <ng-template #noSession>
   <li class="nav-item">
-    <a class="nav-link" href="/login">Login</a>
+  <a class="nav-link" routerLink="/login">Login</a>
+
   </li>
 </ng-template>
