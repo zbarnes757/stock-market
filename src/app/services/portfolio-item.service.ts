@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/observable';
 
 @Injectable()
 export class PortfolioItemService {
+  url = 'https://api.iextrading.com/1.0';
 
   constructor(
     private http: HttpClient,
@@ -18,7 +19,7 @@ export class PortfolioItemService {
    * getPortfolioItem
    */
   savePortfolioItem(ticker: string) {
-    this.http.get<PortfolioItem>(`https://api.iextrading.com/1.0/stock/${ticker}/company`)
+    this.http.get<PortfolioItem>(`${this.url}/stock/${ticker}/company`)
       .subscribe((company) => {
         const user = this.auth.getcurrentUser();
 
@@ -31,6 +32,6 @@ export class PortfolioItemService {
    * getCurrentPrice
    */
   getCurrentPrice(ticker: string): Observable<number> {
-    return this.http.get<number>(`https://api.iextrading.com/1.0/stock/${ticker}/price`);
+    return this.http.get<number>(`${this.url}/stock/${ticker}/price`);
   }
 }
