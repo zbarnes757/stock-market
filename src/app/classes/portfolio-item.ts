@@ -9,6 +9,7 @@ export class PortfolioItem {
     public CEO: string,
     public issueType: string,
     public sector: string,
-    public price: number
+    public currentPrice: number,
+    public previousPrice: number
   ) {}
 }

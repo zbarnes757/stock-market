@@ -18,6 +18,8 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
 import { PortfolioItemComponent } from './portfolio-item/portfolio-item.component';
 import { StockTickerFormComponent } from './stock-ticker-form/stock-ticker-form.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PortfolioItemService } from './services/portfolio-item.service';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 @NgModule({
   declarations: [
@@ -35,12 +37,16 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFirestoreModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     FormsModule,
     HttpClientModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    PortfolioItemService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

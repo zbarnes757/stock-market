@@ -1,7 +1,9 @@
 <div class="card mb-4 box-shadow">
   <div class="card-body">
+    <h5 class="card-title">{{item.companyName}}: {{item.symbol | uppercase}}</h5>
     <p class="card-text">
-      TODO: Will populate this card with stock information
+      {{item.description}}
     </p>
+    <p>Current Price: {{item.currentPrice}}</p>
   </div>
 </div>
