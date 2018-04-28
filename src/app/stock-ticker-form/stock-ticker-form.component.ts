@@ -16,7 +16,7 @@ export class StockTickerFormComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    this.itemService.savePortfolioItem(f.value.ticker);
+    return this.itemService.addTickerToPortfolio(f.value.ticker);
   }
 
 }

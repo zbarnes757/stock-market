@@ -19,18 +19,29 @@ export class PortfolioItemService {
   ) { }
 
   /**
-   * getPortfolioItem
-   * @description saves a new portfolio item for the current user in firebase firestore
+   * addTickerToPortfolio
+   * @description save the new ticker to the current user's portfolio if it isn't already there
    * @param ticker the listing ticker symbol of the stock
    */
-  public savePortfolioItem(ticker: string) {
-    this.http.get<PortfolioItem>(`${this.httpUrl}/stock/${ticker}/company`)
-      .subscribe((company) => {
-        const user = this.auth.getcurrentUser();
+  public addTickerToPortfolio(ticker: string) {
+    ticker = ticker.toLowerCase();
 
-        return this.db.collection('portfolioItems')
-          .add({ ...company, userId: user.uid });
-      });
+    const userRef = this.db.firestore.collection('users').doc(this.auth.getcurrentUser().uid);
+
+    return this.db.firestore.runTransaction((transaction) => {
+      return transaction.get(userRef)
+        .then((userDoc) => {
+          const userData = userDoc.data();
+          if (!userData.portfolio) {
+            return transaction.update(userRef, { portfolio: [ ticker ]});
+          }
+
+          if (!userData.portfolio.includes(ticker)) {
+            const newPortfolio = userData.portfolio.concat(ticker);
+            return transaction.update(userRef, { portfolio: newPortfolio });
+          }
+        });
+    });
   }
 
   /**
@@ -40,6 +51,15 @@ export class PortfolioItemService {
    */
   public getCurrentPrice(ticker: string): Observable<number> {
     return this.http.get<number>(`${this.httpUrl}/stock/${ticker}/price`);
+  }
+
+  /**
+   * getCompanyInfo
+   * @description returns an observable with company info
+   * @param ticker the listing ticker symbol of the stock
+   */
+  public getCompanyInfo(ticker: string) {
+    return this.http.get<PortfolioItem>(`${this.httpUrl}/stock/${ticker}/company`);
   }
 
   /**
