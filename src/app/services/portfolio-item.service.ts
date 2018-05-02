@@ -5,6 +5,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/observable';
 import * as io from 'socket.io-client';
+import { User } from '../classes/user';
 
 @Injectable()
 export class PortfolioItemService {
@@ -17,6 +18,14 @@ export class PortfolioItemService {
     private db: AngularFirestore,
     private auth: AuthService
   ) { }
+
+  /**
+   * getPortfolio
+   */
+  public getPortfolio(): Observable<User> {
+    const currentUser = this.auth.getcurrentUser();
+    return this.db.doc<User>(`users/${currentUser.uid}`).valueChanges();
+  }
 
   /**
    * addTickerToPortfolio
@@ -78,5 +87,26 @@ export class PortfolioItemService {
       };
     });
     return observable;
+  }
+
+  /**
+   * removeItemFromPortfolio
+   */
+  public removeItemFromPortfolio(ticker: string) {
+    ticker = ticker.toLowerCase();
+
+    const userRef = this.db.firestore.collection('users').doc(this.auth.getcurrentUser().uid);
+
+    return this.db.firestore.runTransaction((transaction) => {
+      return transaction.get(userRef)
+        .then((userDoc) => {
+          const userData = userDoc.data();
+          const index = userData.portfolio.indexOf(ticker);
+          if (index >= 0) {
+            delete userData.portfolio[index];
+            return transaction.update(userRef, { portfolio: userData.portfolio });
+          }
+        });
+    });
   }
 }

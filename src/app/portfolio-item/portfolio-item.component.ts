@@ -10,5 +10,11 @@ import { PortfolioItemService } from '../services/portfolio-item.service';
 export class PortfolioItemComponent implements OnInit {
   @Input() item: PortfolioItem;
 
+  constructor(private itemService: PortfolioItemService) {}
+
   ngOnInit() {}
+
+  remove() {
+    return this.itemService.removeItemFromPortfolio(this.item.symbol);
+  }
 }

@@ -1,34 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { AuthService } from '../services/auth.service';
-import { User } from '../classes/user';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PortfolioItem } from '../classes/portfolio-item';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { take, takeUntil } from 'rxjs/operators';
 import { PortfolioItemService } from '../services/portfolio-item.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.css']
 })
-export class PortfolioComponent implements OnInit {
+export class PortfolioComponent implements OnInit, OnDestroy {
   portfolio: string[] = [];
   portfolioItems: PortfolioItem[] = [];
+  onDestroySubject = new Subject();
 
-  constructor(
-    private db: AngularFirestore,
-    private auth: AuthService,
-    private itemService: PortfolioItemService
-  ) { }
+  constructor( private itemService: PortfolioItemService) { }
 
   ngOnInit() {
     this.getPortfolio();
   }
 
+  ngOnDestroy() {
+    this.onDestroySubject.next(null);
+  }
+
   private getPortfolio() {
-    const currentUser = this.auth.getcurrentUser();
-    this.db.doc<User>(`users/${currentUser.uid}`)
-      .valueChanges()
+      this.itemService.getPortfolio()
+      .pipe(takeUntil(this.onDestroySubject))
       .subscribe(user => {
         if (user.portfolio) {
           this.portfolio = user.portfolio;
@@ -44,6 +43,10 @@ export class PortfolioComponent implements OnInit {
         forkJoin(
           this.itemService.getCurrentPrice(ticker),
           this.itemService.getCompanyInfo(ticker)
+        )
+        .pipe(
+          take(1),
+          takeUntil(this.onDestroySubject)
         )
         .subscribe(([price, companyInfo]) => {
           companyInfo.currentPrice = price;
